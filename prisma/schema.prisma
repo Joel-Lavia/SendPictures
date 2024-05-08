@@ -16,11 +16,12 @@ datasource db {
 model User {
 id Int @id @default(autoincrement())
 name String @unique
-pictures Pictures[]
+picture Picture[]
 }
-model Pictures{
+model Picture{
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  author User @relation(fields: [authorId], references: [id])
-  authorId Int
+  pictures String
+  authorPictures User @relation(fields: [authorPicturesId], references: [id])
+  authorPicturesId Int
 }
