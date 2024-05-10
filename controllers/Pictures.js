@@ -1,4 +1,5 @@
 const prisma = require("../db/prisma");
+// const upload = multer({dest:"./uploads"});
 
 
 const postPictures = async (req,res) => {
@@ -24,3 +25,4 @@ res.status(200).json(`${picturesPost.pictures} post with succes`)
 module.exports = {
 postPictures
 }
+
