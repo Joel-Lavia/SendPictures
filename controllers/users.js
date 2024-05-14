@@ -5,7 +5,7 @@ const { name } = req.body;
 try {
 const existingUser = await prisma.user.findUnique({
 where: {
-name: name
+name:name
 }
 });
 

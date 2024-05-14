@@ -1,6 +1,8 @@
 const cloudinary = require("../services/cloudinary");
 
-const uploadImage = async (imagePath) =>{
+const imagePath = "";
+
+const uploadImage = async (imagePath) => {
 
 const options = {
     use_filename : true,
@@ -14,7 +16,6 @@ const options = {
   console.log(result);
   return result.public_id;
 
-        
     } catch (error) {
     console.error(error);
     }
