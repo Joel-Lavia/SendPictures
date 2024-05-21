@@ -11,8 +11,9 @@ const file = e.target.files[0];
 if(file){
 const reader = new FileReader();
 reader.onloadend = () => {
-setImagePreview(reader.result);
-console.log(reader.result);
+const imagePath = reader.result; 
+setImagePreview(imagePath);
+console.log(imagePath);
 }
 reader.readAsDataURL(file);
 }
