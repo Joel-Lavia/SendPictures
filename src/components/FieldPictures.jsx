@@ -1,6 +1,22 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form"
 
 function FieldPictures() {
+
+const [imagePreview, setImagePreview] = useState("");
+
+const viewImage  = (e) => {
+
+const file = e.target.files[0];
+if(file){
+const reader = new FileReader();
+reader.onloadend = () => {
+setImagePreview(reader.result);
+console.log(reader.result);
+}
+reader.readAsDataURL(file);
+}
+}
 
 const {
     register,
@@ -10,7 +26,8 @@ const {
  const onSubmit = (data) => console.log(data);
 
 return(
-    <section>
+
+<section>
 <form onSubmit={handleSubmit(onSubmit)}>
 
 <label>
@@ -24,14 +41,15 @@ Name
 <label>
 pictures
 <p>
-<input {...register('Photo',{required:true})} />
-{errors.Photo && <p>Pictures required</p> }
+<input type="file" {...register('Photo',{required:true})} onChange={viewImage} />
+{errors.Photo && <p>file required</p> }
 </p>
 </label>
 
 <button type="submit">Sends</button>
 </form>
-    </section>
+<img src= {imagePreview} alt="" width={350} />
+</section>
 )
 }
 export default FieldPictures
