@@ -1,77 +1,66 @@
-import {useState } from "react";
-import { useForm } from "react-hook-form"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 
 function FieldPictures() {
-    const {
-        register,
-        handleSubmit,
-        setValue,
-        formState:{errors}
-    } = useForm();
-
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const [imagePreview, setImagePreview] = useState("");
-    // const [url, setUrl] = useState("");
+    const [base64ImageUrl, setBase64ImageUrl] = useState("");
 
-    const viewImage = (e) => {
-    const file = e.target.files[0];
-
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
                 const url = reader.result;
                 setImagePreview(url);
-                setValue("pictures",url);
-                console.log(`salut ${url}`);
-            }
-
+                setBase64ImageUrl(url);
+            };
             reader.readAsDataURL(file);
         }
-    }
-    
+    };
+console.log(`hey c'est moi : ${base64ImageUrl}`);
     const onSubmit = async (data) => {
+        // Ajout manuel de la valeur base64 aux données du formulaire
+        data.pictures = base64ImageUrl;
 
-    // // const author =  data.u
-    // console.log(`salut: ${data}`);
-    console.log(data);
-    // console.log('salut:', JSON.stringify(data, null, 2));
+        console.log(data);
 
         try {
-            const response  =  await axios.post("http://localhost:4000/PostPictures",data)
-           .then(() => {
+            const response = await axios.post("http://localhost:4000/PostPictures", data);
             console.log(response.data);
-           })
-        } 
-        catch (error) {
-        console.log(error); 
+        } catch (error) {
+            console.log(error);
         }
-    }
-    // console.log(`heo${url}`);
+    };
 
-return(
+    return (
+        <section>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <label>
+                    Name
+                    <p>
+                        <input {...register('authorPictures', { required: true })} />
+                        {errors.authorPictures && <p>Le nom est requis</p>}
+                    </p>
+                </label>
 
-<section>
-<form onSubmit={handleSubmit(onSubmit)}>
-<label>
-Name
-<p>
-<input {...register('authorPictures',{required:true})} />
-{errors.authorPictures && <p>le nom est requis</p> }
-</p>  
-</label>   
+                <label>
+                    Pictures
+                    <p>
+                        <input
+                            type="file"
+                            onChange={handleFileChange}
+                        />
+                        {errors.pictures && <p>File required</p>}
+                    </p>
+                </label>
 
-<label>
-pictures
-<p>
-<input type="file"  onChange={viewImage}/>
-{errors.pictures && <p>file required</p> }
-</p>
-</label>
-
-<button type="submit">Sends</button>
-</form>
-<img src= {imagePreview} alt="" width={350} />
-</section>
-)
+                <button type="submit">Send</button>
+            </form>
+            {imagePreview && <img src={imagePreview} alt="Image preview" width={350} />}
+        </section>
+    );
 }
-export default FieldPictures
+
+export default FieldPictures;
