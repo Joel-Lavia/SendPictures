@@ -3,10 +3,7 @@ const prisma = require("../db/prisma");
 const { uploadImage,getAssetInfo,createImageTag} = require("../controllers/cloudinary");
 
 
-
 const postPictures = async (req,res) => {
-
-
 
 
 const {pictures,authorPictures} = req.body;
@@ -31,6 +28,7 @@ try {
     console.log(imageTag);
 
 res.status(200).json(`${picturesPost.pictures} post with succes`)
+alert("pictures post with succes");
 
 } catch (error) {
     res.status(500).json(error); 

@@ -1,7 +1,5 @@
 const cloudinary = require("../services/cloudinary");
 
-const imagePath = "";
-
 const uploadImage = async (imagePath) => {
 
 const options = {
