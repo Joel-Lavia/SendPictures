@@ -1,16 +1,18 @@
 const cloudinary = require("../services/cloudinary");
 
 const uploadImage = async (imagePath) => {
-
+ 
 const options = {
     use_filename : true,
     unique_filname : true,
-    overwrite:true
+    overwrite:true,
     };
+const upload_preset	 = "ConfigForPIcturesUser";
+const format = "jpeg";
 
     try {
        
-  const result = await cloudinary.uploader.upload(imagePath, options);
+  const result = await cloudinary.uploader.unsigned_uploadn(imagePath,upload_preset,format,options);
   console.log(result);
   return result.public_id;
 
